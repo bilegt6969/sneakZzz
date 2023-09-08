@@ -107,7 +107,7 @@ function Header({ onSearch }) {
   return (
 <div className="sticky top-0 z-[30]"> 
       <div className=" flex flex-col w-full sm:pb-[0rem] md:pb-[0rem] lg:pb-[0rem] pb-[1rem] pt-3    bg-white">
-      <div className="flex items-center justify-between  lg:space-x-[5rem] md:space-x-[5rem] sm:space-x-[5rem] sm:mx-10 sm:ml-[-2rem] md:mx-10 md:ml-[-2rem] lg:mx-10 lg:ml-[-2rem] font-sans">
+      <div className="flex items-center justify-between  lg:space-x-[5rem] md:space-x-[5rem] sm:space-x-[5rem] sm:mx-10 sm:ml-[-2rem] md:mx-10 md:ml-[-2rem] lg:mx-10 ml-[1rem] font-sans">
         {/* Hamburger menu */}
         <div className="lg:hidden ml-[1rem] space-x-5 shrink-0 flex md:hidden sm:hidden">
           <button className="focus:outline-none z-10" onClick={toggleMenu}>
@@ -121,9 +121,9 @@ function Header({ onSearch }) {
           <div className="items-center flex">
             <button className="focus:outline-none z-10" onClick={toggleNav}>
               {isOngorhoi ? (
-                <XMarkIcon className="flex text-white ml-[-3rem] transition-all w-8 h-8" />
+                <XMarkIcon className="flex text-white ml-[-0.5rem] transition-all w-8 h-8" />
               ) : (
-                <MagnifyingGlassIcon className="flex z-10 text-black   w-7 h-7" />
+                <MagnifyingGlassIcon className="flex z-10 text-black   w-6 h-6" />
               )}
             </button>
           </div>
