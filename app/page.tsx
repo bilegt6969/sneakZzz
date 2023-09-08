@@ -1,27 +1,27 @@
-import React from 'react'
-import Header from './components/Header'
-import Banner from './components/Banner'
-import Head from 'next/head'
+'use client'
+import React, { useState } from 'react';
+import Hi from './components/Header';
+import Banner from './components/Banner';
+import Head from 'next/head';
 
+function Page() {
+  const [searchResult, setSearchResult] = useState(null);
 
+  const handleSearch = (value: React.SetStateAction<null>) => {
+    setSearchResult(value);
+  };
 
-
-function page() {
   return (
     <div>
       <Head>
-      <title>Sneakz</title>
+        <title>lynx</title>
       </Head>
-      <Header/>
+      <Hi onSearch={handleSearch} />
       <main className='max-w-screen-2xl mx-auto'>
-      <Banner/>
+        <Banner result={searchResult} />
       </main>
-
-
-      </div>
-
-      
-  )
+    </div>
+  );
 }
 
-export default page
+export default Page;

@@ -12,15 +12,16 @@ import {
   ChevronLeftIcon
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
-import Logo from "@/img/sneakz.png";
-import Image from "next/image";  
+import Logo from "@/img/logo.svg";
+import Image from "next/image"; 
 
 
 
-function Header() {
+
+function Header({ onSearch }) {
   const [query1, setQuery1] = useState(''); // Input field value
-  const [result, setResult] = useState(null);
-  
+  const [result, setResult] = useState(null);  
+
 
   const search = async () => {
     const url = `https://ac.cnstrc.com/autocomplete/${query1.replace(
@@ -32,9 +33,11 @@ function Header() {
       const response = await axios.get(url);
       const output = response.data;
       setResult(output.sections.Products);
+      onSearch(output.sections.Products); // Pass the result to the parent component
     } catch (error) {
       console.error('Error:', error);
       setResult(null); // Handle the error or set a default value as needed
+      onSearch(null); // Pass null to the parent component in case of an error
     }
   };
 
@@ -102,7 +105,7 @@ function Header() {
 
 
   return (
-<div className="sticky top-0 z-[30]">    
+<div className="sticky top-0 z-[30]"> 
       <div className=" flex flex-col w-full sm:pb-[0rem] md:pb-[0rem] lg:pb-[0rem] pb-[1rem] pt-3    bg-white">
       <div className="flex items-center justify-between  lg:space-x-[5rem] md:space-x-[5rem] sm:space-x-[5rem] sm:mx-10 sm:ml-[-2rem] md:mx-10 md:ml-[-2rem] lg:mx-10 lg:ml-[-2rem] font-sans">
         {/* Hamburger menu */}
@@ -118,7 +121,7 @@ function Header() {
           <div className="items-center flex">
             <button className="focus:outline-none z-10" onClick={toggleNav}>
               {isOngorhoi ? (
-                <XMarkIcon className="flex text-white ml-[0rem] w-8 h-8" />
+                <XMarkIcon className="flex text-white ml-[-3rem] transition-all w-8 h-8" />
               ) : (
                 <MagnifyingGlassIcon className="flex z-10 text-black   w-7 h-7" />
               )}
@@ -128,33 +131,36 @@ function Header() {
 
         {/* Logo */}
         <div className="z-[50] justify-center">
-          <h1
+          <a href="../"><Image
+          src={Logo}
             alt="logo"
-            className="font-semibold text-2xl lg:w-[4rem] md:w-[7rem] sm:w-[7rem] w-[6rem]"
-            width={130}
+            className="font-semibold text-2xl lg:w-[4.5rem] md:w-[7rem] sm:w-[7rem] w-[4rem]"
+            width={100}
             height={10}
-          >Sneakz</h1>
+         /></a>
+          
         </div>
 
         {/* SearchBar */}
         <div className="z-[50] hidden sm:flex relative flex-grow items-center">
+          
+
           <input
-            className="w-full focus:outline-none flex-shrink outline-none h-10 px-1 py-2 rounded-full font-sans border text-black border-black pl-14"
+            className="w-full pl-[3rem] focus:outline-none flex-shrink outline-none h-10 px-1 py-2 rounded-xl font-sans border text-black border-black"
             type="text"
             placeholder="Search..."
             value={query1}
             onChange={(e) => setQuery1(e.target.value)}
           />
-          <div className=" left-[3px] top-[1.5px] p-[6px] rounded-full">
-            <button>
+                  <button              onClick={search}
+>
             <MagnifyingGlassIcon
-             onClick={search}
-              className="z-[50] cursor-pointer hover:bg-gray-300 hover:rounded-full transition-all flex text-black"
-              width={"24"}
-              height={"24"}
+              className="z-[50] absolute top-[0.6rem] items-center left-3 cursor-pointer  transition-all flex text-black"
+              width={"20"}
+              height={"20"}
             />
             </button>
-          </div>
+
         </div>
 
         {/* RightSide */}
@@ -180,7 +186,7 @@ function Header() {
               value={query1}
           onChange={(e) => setQuery1(e.target.value)}
             />
-            <button
+            <button onClick={search}
 >
             <MagnifyingGlassIcon
               className="flex text-white"
@@ -587,7 +593,7 @@ className="my-1 text-white subpixel-antialiased text-[2rem] font-sans">         
         </motion.div>
       </div>
       {/*under navbar*/}
-      <div className="z-[50] bg-gray-200 shrink-0 hidden sm:flex p-2 font-light mt-[1rem] justify-center text-xl lg:space-x-[50px] md:space-x-[30px] sm:space-x-[15px] items-center text-black ">
+      {result ? (<p></p>) : (<div className="z-[50]  bg-gray-100 font-normal border-t-[0.1rem] border-gray-300 shrink-0 hidden sm:flex p-2 mt-[1rem] justify-center text-xl lg:space-x-[50px] md:space-x-[30px] sm:space-x-[15px] items-center text-black ">
         <li className="list-none">
           <p className="hover:text-gray-400  cursor-pointer">Sneakers</p>
         </li>
@@ -604,30 +610,16 @@ className="my-1 text-white subpixel-antialiased text-[2rem] font-sans">         
           <p className="hover:text-gray-400  cursor-pointer">Collectibles</p>
         </li>
       
-      </div>
+      </div>)}
+    
+      
     </div>
-    {result ? (
-          <div className="z-[50] bg-white mx-auto flex flex-wrap justify-center">
-            {result.map((product, index) => (
-              <div onClick={() => handleClick(product)} key={index} className="p-2 m-1 border border-gray-300 w-1/1 sm:w-1/1 md:w-1/3 lg:w-1/4 xl:w-1/5">
-                <div className="bg-white">
-                  <h1 className='text-sm font-bold'>{product.value}</h1>
-                  <p className='text-sm'> {product.data.lowest_price_cents / 100 + '$'}</p>
-                  <p className='text-sm'> {product.data.release_date_year }</p>
-  
-                  <div className="flex justify-center">
-                    <Image className='' src={product.data.image_url} width={500} height={500} alt="Product" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No results found.</p>
-        )}
+        
     </div>
     
   );
+
 }
+
 
 export default Header;
