@@ -5,6 +5,8 @@ import { Carousel } from 'react-responsive-carousel';
 import Image from 'next/image';
 import { useMediaQuery } from 'react-responsive';
 import Header, { result } from './Header';
+import { useRouter } from 'next/navigation'
+
 
 
 
@@ -15,11 +17,25 @@ function Banner({result}) {
   const isXLargeScreen = useMediaQuery({ minWidth: 1200 });
   const  isMdScreen  = useMediaQuery({ minWidth: 760 });
 
+  const router = useRouter();
+
+  const handleClick = (product) => { // Pass 'product' data as an argument
+    router.push({
+  pathname: `/products/${product.data.slug}`,
+  query: {
+    name: productData.name,
+    price: productData.lowest_price_cents,
+    date: productData.release_date_year,
+  },
+});
+   
+  };
 
 
 
   return (
     <div className='relative mt-[1rem] max-w-screen-xl mx-auto '>
+      
       {result ? (<div></div>): (<Carousel
         autoPlay
         infiniteLoop
@@ -32,7 +48,7 @@ function Banner({result}) {
         <div>
           <img
             loading="lazy"
-            src="https://images-cs.stockx.com/v3/assets/blt818b0c67cf450811/blta21483f51a27968d/64f76680c12d773bd8d033ff/Jordan7RetroInfraredEarly_Primary_Desktop.jpg?quality=75&auto=webp&format=pjpg&dpr=2&width=1246"
+            src="https://www.stadiumgoods.com/BWStaticContent/54000/80790665-3c92-4644-8038-7606ce3450ed_230831-cement-story-gs-desktop.jpg"
             alt="XLarge Banner"
           />
         </div>
@@ -40,14 +56,14 @@ function Banner({result}) {
         <div>
           <img
             loading="lazy"
-            src="https://images-cs.stockx.com/v3/assets/blt818b0c67cf450811/blt58b3c5f1278e7235/64fa08ef539fa137874ad3e1/Supreme-FW23-Week-3_Primary_Mobile_EN.png?quality=75&auto=webp&format=pjpg&dpr=2"
+            src="https://www.stadiumgoods.com/BWStaticContent/54000/30bb279e-41df-464b-80e7-28d41ba1264b_230831-cement-story-gs-mobile.jpg"
             alt="Md Banner"
           />
         </div>
       ) : (
         <img
           loading="lazy"
-          src="https://images-cs.stockx.com/v3/assets/blt818b0c67cf450811/blt3bd7fa9d9f1034c1/64f0ebc31cee17161ddb66b9/supreme823.jpg?quality=75&auto=webp&format=pjpg&dpr=2&width=234&height=160"
+          src="https://www.stadiumgoods.com/BWStaticContent/54000/661479b7-bef0-408a-a66d-d0310a375ae1_230831-cement-story-gs-app.jpg"
           alt="Small Banner"
         />
       )}
@@ -100,7 +116,8 @@ function Banner({result}) {
         
         <div>
         {result ? (
-          <div className="flex flex-wrap justify-center">
+          <div onClick={() => handleClick(product)} className="flex flex-wrap justify-center">
+
             {result.map((product, index) => (
               <div onClick={() => handleClick(product)} key={index} className="p-2 m-1 border border-gray-300 w-1/1 sm:w-1/1 md:w-1/3 lg:w-1/4 xl:w-1/5">
                 <div className="bg-white">

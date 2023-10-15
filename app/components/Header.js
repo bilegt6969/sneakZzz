@@ -41,6 +41,12 @@ function Header({ onSearch }) {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      search();
+    }
+  };
+
   useEffect(() => {
     // Trigger the search function when the component mounts
     search();
@@ -143,25 +149,23 @@ function Header({ onSearch }) {
 
         {/* SearchBar */}
         <div className="z-[50] hidden sm:flex relative flex-grow items-center">
-          
-
-          <input
-            className="w-full pl-[3rem] focus:outline-none flex-shrink outline-none h-10 px-1 py-2 rounded-xl font-sans border text-black border-black"
-            type="text"
-            placeholder="Search..."
-            value={query1}
-            onChange={(e) => setQuery1(e.target.value)}
-          />
-                  <button              onClick={search}
->
-            <MagnifyingGlassIcon
-              className="z-[50] absolute top-[0.6rem] items-center left-3 cursor-pointer  transition-all flex text-black"
-              width={"20"}
-              height={"20"}
+            <input
+              className="w-full pl-[3rem] focus:outline-none flex-shrink outline-none h-10 px-1 py-2 rounded-xl font-sans border text-black border-black"
+              type="text"
+              placeholder="Search..."
+              value={query1}
+              onChange={(e) => setQuery1(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
+            <button onClick={search}>
+              <MagnifyingGlassIcon
+                className="z-[50] absolute top-[0.6rem] items-center left-3 cursor-pointer  transition-all flex text-black"
+                width={"20"}
+                height={"20"}
+              />
             </button>
+          </div>
 
-        </div>
 
         {/* RightSide */}
         <div className="z-[50] flex mr-10 space-x-5">
